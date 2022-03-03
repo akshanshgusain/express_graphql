@@ -26,16 +26,19 @@ app.get("/", (req, res, next) => {
 });
 
 // Connection to MongoDB Database
-mongoose
-  .connect(
-    `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@clustergraphql.okwmj.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
-  )
-  .then(() => {
+const dbConnect = async () => {
+  try {
+    await mongoose.connect(
+      `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@clustergraphql.okwmj.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`
+    );
+
     app.listen(3000, () => {
       console.log(`listening to port 3000!`);
     });
-  })
-  .catch((err) => {
+  } catch (err) {
     console.log("Failed to start the server! Could not connect to MongoDB");
     console.log(err);
-  });
+  }
+};
+
+dbConnect();
