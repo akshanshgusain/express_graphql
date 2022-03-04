@@ -1,5 +1,6 @@
 const { dateToString } = require("../../helper/date");
 const Event = require("../../models/events");
+const User = require("../../models/user");
 const { user, transformEvent } = require("../resolvers/merge");
 
 // Helper functions
@@ -16,7 +17,11 @@ module.exports = {
       throw err;
     }
   },
-  createEvent: async (args) => {
+  createEvent: async (args, req) => {
+    if (!req.isAuth) {
+      console.log("UnAuthentocated");
+      throw new Error("UnAuthentocated");
+    }
     const event = new Event({
       title: args.eventInput.title,
       description: args.eventInput.description,

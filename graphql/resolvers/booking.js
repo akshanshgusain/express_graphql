@@ -20,7 +20,11 @@ const transformBooking = (booking) => {
 
 //     Module Export
 module.exports = {
-  bookings: async () => {
+  bookings: async (req) => {
+    if (!req.isAuth) {
+      console.log("UnAuthentocated");
+      throw new Error("UnAuthentocated");
+    }
     try {
       const bookings = await Booking.find();
       return bookings.map((booking) => {
@@ -30,7 +34,12 @@ module.exports = {
       throw err;
     }
   },
-  bookEvent: async (args) => {
+  bookEvent: async (args, req) => {
+    if (!req.isAuth) {
+      console.log("UnAuthentocated");
+      throw new Error("UnAuthentocated");
+    }
+
     try {
       const fetchedEvent = await Event.findOne({ _id: args.eventId });
       const booking = new Booking({
@@ -44,7 +53,11 @@ module.exports = {
       throw err;
     }
   },
-  cancelBooking: async (args) => {
+  cancelBooking: async (args, req) => {
+    if (!req.isAuth) {
+      console.log("UnAuthentocated");
+      throw new Error("UnAuthentocated");
+    }
     try {
       const booking = await Booking.findById(args.bookingId).populate("event");
       const evenT = transformEvent(booking.event);
