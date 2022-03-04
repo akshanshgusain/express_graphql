@@ -16,11 +16,13 @@ module.exports = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, `${process.env.SECRET_KEY}`);
   } catch (err) {
+    console.log("decode exception");
     req.isAuth = false;
     return next();
   }
 
   if (!decodedToken) {
+    console.log("decode not found");
     req.isAuth = false;
     return next();
   }
