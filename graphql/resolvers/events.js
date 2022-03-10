@@ -3,9 +3,6 @@ const Event = require("../../models/events");
 const User = require("../../models/user");
 const { user, transformEvent } = require("../resolvers/merge");
 
-// Helper functions
-
-// Helper functions
 module.exports = {
   events: async () => {
     try {
